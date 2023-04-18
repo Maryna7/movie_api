@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td>Get data to the user about a single movie by title</td>
-                    <td>/movies/[title]</td>
+                    <td>/movies/:Title</td>
                     <td>GET</td>
                     <td>None</td>
                     <td>A JSON object holding data about a single movie, containing an ID, name, and classes property, structured like:
@@ -58,8 +58,7 @@
                                 'Title': 'Pulp Fiction',
                                 'Description': 'The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.',
                                 'Genre': {
-                                    'Name': 'Crime',
-                                    'Name': 'Drama'
+                                    'Name': 'Crime'
                                 },
                                 'Director': {
                                     'Name': 'Quentin Tarantino',
@@ -72,65 +71,80 @@
                 </tr>
                 <tr>
                     <td>Return data about genre</td>
-                    <td>/movies/genre/[genreName]</td>
+                    <td>/movies/genre/:genreName</td>
                     <td>GET</td>
                     <td>None</td>
                     <td>A JSON object holding data about genre name, structured like:
                         <code>
                             {
-                            "Name": "Drama"
+                            "Name": "Drama",
+                            "Description": "Drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone. Drama of this kind is usually qualified with additional terms that specify its particular super-genre, macro-genre, or micro-genre, such as soap opera, police crime drama, political drama, legal drama, historical drama, domestic drama, teen drama, and comedy-drama (dramedy)."
                             }
                         </code>
                     </td>
                 </tr>
                 <tr>
                     <td>Return data about a director (bio, birth year, death year) by name</td>
-                    <td>/movies/director/[directorName]</td>
+                    <td>/movies/director/:directorName</td>
                     <td>GET</td>
                     <td>None</td>
                     <td>A JSON object holding data about director such as name, bio, date of birth, structured like:
                         <code>
                         {
                             "Name": "Quentin Tarantino",
-                            "Bio": "",
-                            "Birth": 1963
+    "Bio": "Tarantino is an American film director, writer, producer, and actor. Tarantino is considered one of the leading and most influential directors of his generation. His films are characterized by stylized violence, extended dialogue including the pervasive use of profanity and references to popular culture.",
+    "Birth": "1963-03-27"
                         }
                         </code>
                     </td>
                 </tr>
                 <tr>
-                    <td>Allow new users to register</td>
+                    <td>Return a list of all users</td>
                     <td>/users</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object holding data about all users</td>
+                </tr>
+                <tr>
+                    <td>Allow new users to register</td>
+                    <td>/users/:Username</td>
                     <td>POST</td>
                     <td>A JSON object holding data about the user to add, structured like:
                         <code>
                             {
-                                "name": "Mary",
-                                "favoriteMovies": []
+                                "Username": "Mary",
+                                "Password": "123",
+                                "Email": "mary@gmail.com"
                             }
                         </code>
                     </td>
                     <td>A JSON object holding data about the user that was added, including an ID::
                         <code>
                             {
-                                "name": "Mary",
-                                "favoriteMovies": [],
-                                "id": "2859baaa-1910-4eea-a9fc-bcbf92d63f42"
+                                "Username": "Mary",
+                                "Password": "123",
+                                "Email": "mary@gmail.com",
+                                "FavoriteMovies": [],
+                                "_id": "643e7f54003d85e64f689350",
+                                "__v": 0
                             }
                         </code>
                     </td>
                 </tr>
                 <tr>
                     <td>Allow users to update their user info (username)</td>
-                    <td>/users/[userID]</td>
+                    <td>/users/:Username</td>
                     <td>PUT</td>
                     <td>None</td>
                     <td>A JSON object holding updated information about the user:
                         <code>
                             {
-                                "id": 1,
-                                "name": "Kim Updated Name",
-                                "favoriteMovies": []
+                                "_id": "643e7f54003d85e64f689350",
+                                "Username": "Mary Updated Name",
+                                "Password": "123",
+                                "Email": "mary@gmail.com",
+                                "FavoriteMovies": [],
+                                "__v": 0
                             }
                         </code>
                     </td>
@@ -138,24 +152,23 @@
                 <tr>
                     <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been
                         added—more on this later)</td>
-                    <td>/users/[userID]/[movieTitle]</td>
+                    <td>/users/:Username/movies/:MovieID</td>
                     <td>POST</td>
                     <td>None</td>
-                    <td>A text message with information, that the movie was added, or somethink broken. Example: "Pulp Fiction has been added to user 1's array"</td>
+                    <td>A text message with information, that the movie was added, or somethink broken.</td>
                 </tr>
                 <tr>
                     <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has
                         been removed—more on this later)</td>
-                    <td>/users/[userID]/[movieTitle]
-                    </td>
+                    <td>/users/:Username/movies/:MovieID</td>
                     <td>DELETE</td>
                     <td>None</td>
-                    <td>A text message with information, that the movie was deleted, or somethink broken. Example: "The Grand Budapest Hotel has been removed from user 2's array"</td>
+                    <td>A text message with information, that the movie was deleted, or somethink broken.</td>
                 </tr>
                 <tr>
                     <td>Allow existing users to deregister (showing only a text that a user email has been removed—more
                         on this later)</td>
-                    <td>/users/[userID]</td>
+                    <td>/users/:Username</td>
                     <td>DELETE</td>
                     <td>None</td>
                     <td>A text message indicating a user account was deleted. Example: "User 2 has been deleted"</td>
