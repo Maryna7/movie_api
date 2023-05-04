@@ -47,14 +47,6 @@ require('./passport');
 ////////////////////////////// OPERATIONS WITH A USER ///////////////////////////////
 
 //Add a user
-/* We’ll expect JSON in this format
-{
-  ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
-}*/
 app.post('/users',
   [
     check('Username', 'Username is required').isLength({ min: 5 }),
@@ -123,16 +115,6 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 
 
 // Update a user's info, by username
-/* We’ll expect JSON in this format
-{
-  Username: String,
-  (required)
-  Password: String,
-  (required)
-  Email: String,
-  (required)
-  Birthday: Date
-}*/
 app.put('/users/:Username',
   [
     check('Username', 'Username is required').isLength({ min: 5 }),
@@ -219,7 +201,7 @@ app.get('/', (req, res) => {
 });
 
 //get all movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/movies', (req, res) => {
   Movies.find()
     .then((movies) => {
       res.status(200).json(movies);
