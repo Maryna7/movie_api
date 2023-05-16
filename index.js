@@ -50,7 +50,7 @@ require('./passport');
 //Add a user
 app.post('/users',
   [
-    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username', 'Username is required, min length is 4').isLength({ min: 4 }),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
@@ -118,7 +118,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 // Update a user's info, by username
 app.put('/users/:Username',
   [
-    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username', 'Username is required, min length is 4').isLength({ min: 4 }),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
@@ -129,12 +129,11 @@ app.put('/users/:Username',
       return res.status(422).json({ errors: errors.array() });
     }
 
-    console.log(req.body)
     Users.findOneAndUpdate({ Username: req.params.Username }, {
       $set:
       {
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: Users.hashPassword(req.body.Password),
         Email: req.body.Email,
       }
     },
