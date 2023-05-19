@@ -135,6 +135,7 @@ app.put('/users/:Username',
         Username: req.body.Username,
         Password: Users.hashPassword(req.body.Password),
         Email: req.body.Email,
+        Birthday: req.body.Birthday
       }
     },
       { new: true }).then((updatedUser) => {
