@@ -44,7 +44,7 @@ let allowedOrigins = [
   'http://localhost:4200',
   'https://maryna-myflix-app.herokuapp.com',
   'https://marynas-myflix.netlify.app',
-  'https://maryna7.github.io/myFlix-Angular-client'
+  'https://maryna7.github.io'
 ];
 
 app.use(cors({
